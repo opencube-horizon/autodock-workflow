@@ -1,6 +1,12 @@
 # AutoDock-GPU workflow for Apache Airflow
 A workflow for molecular docking using AutoDock-GPU. The workflow is implemented as a DAG, and can be run in Apache Airflow, on a Kubernetes cluster.
 
+## Description
+
+We provide a DAG to execute molecular docking of a set of ligands to a fixed receptor, using AutoDock-GPU, with GPU acceleration on NVIDIA GPU.
+
+![AutoDock-GPU DAG in Apache Airflow UI](screenshot_workflow.jpg "Screenshot of the DAG in Apache Airflow")*The AutoDock-GPU DAG, as presented in Apache Airflow UI*
+
 ## Quickstart
 
 ### Folders
@@ -9,7 +15,7 @@ The main DAG is contained in `autodock.py`, we also provide with the following f
 - `misc/` contains various configuration files, used for testing and development;
 - `plot/` contains python scripts to create plots.
 
-### Installation checklist
+### Installation checklist (see _Setup & Installation_)
 - [ ] Kubernetes: PersistentVolume with name `pv-autodock`
 - [ ] Kubernetes: PersistentVolumeClaim with name `pvc-autodock`
 - [ ] Docker: Docker image available in public registry with name `example/autodock:1.5.3`
@@ -93,4 +99,7 @@ To execute a script for a specific DAG execution, you need to provide `DAG_RUN_I
 
 When running the scripts, figures will be written to the `figures/` folder.
 
-### FAQ
+## Relevant publications
+- Daniel Medeiros, Gabin Schieffer, Jacob Wahlgren, Ivy Peng. 2023. _A GPU-accelerated Molecular Docking Workflow with Kubernetes and Apache Airflow_. WOCC'23
+
+## FAQ
