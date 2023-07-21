@@ -47,7 +47,7 @@ In this example, and in the rest of this tutorial, the PersistentVolume is named
 kubectl create -f misc/pvclaim.yaml -n airflow
 ```
 
-In this example, and in the rest of this tutorial, the PersistentVolumeClaim is named `pvc-autodock`. Furthermore, it has the same namespace as the one under which your Apache Airflow setup is deployed, here we use `airflow`.
+In this example, and in the rest of this tutorial, the PersistentVolumeClaim is named `pvc-autodock`. Furthermore, it has the same namespace as the one under which the Apache Airflow setup is deployed, here we use `airflow`.
 
 ### 2. Building the Docker image
 A Dockerfile is provided, along with scripts that will be included in the image, in the the `docker` folder.
