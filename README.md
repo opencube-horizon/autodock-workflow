@@ -9,7 +9,14 @@ The main DAG is contained in `autodock.py`, we also provide with the following f
 - `plot/` contains python scripts to create plots.
 
 ### Installation checklist
-- [x] BAC
+- [ ] Kubernetes: PersistentVolume with name `pv-autodock`
+- [ ] Kubernetes: PersistentVolumeClaim with name `pvc-autodock`
+- [ ] Docker: Docker image available in public registry with name `example/autodock:1.5.3`
+- [ ] Apache Airflow: pool with name `gpu_pool` is created
+- [ ] Apache Airflow: autodock.py is in Apache Airflow's DAG folder. 
+- [ ] DAG: in autodock.py, `PVC_NAME` is set
+- [ ] DAG: in autodock.py, `IMAGE_NAME` is set
+- [ ] DAG: a `.sdf` ligand database is stored in the root of the PersitentVolume
 
 ## Setup & Installation
 ### 1. Kubernetes _PersistentVolume_ and _PersistentVolumeClaim_
