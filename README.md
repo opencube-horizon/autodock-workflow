@@ -9,7 +9,7 @@ The main DAG is contained in `autodock.py`, we also provide with the following f
 - `plot/` contains python scripts to create plots.
 
 ### Installation checklist
-- [x]
+- [x] BAC
 
 ## Setup & Installation
 ### 1. Kubernetes _PersistentVolume_ and _PersistentVolumeClaim_
