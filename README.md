@@ -1,4 +1,4 @@
-# AutoDock-GPU workflow for Apache Airflow
+# AutoDock-GPU workflow on Apache Airflow
 A workflow for molecular docking using AutoDock-GPU. The workflow is implemented as a DAG, and can be run in Apache Airflow, on a Kubernetes cluster.
 
 ## Description
