@@ -9,7 +9,9 @@ from datetime import datetime
 
 from kubernetes.client import models as k8s
 
-PVC_NAME = 'pvc-autodock'
+IMAGE_NAME = 'gabinsc/autodock-gpu:1.5.3' # CHANGE ME
+PVC_NAME = 'pvc-autodock' # CHANGE ME
+
 MOUNT_PATH = '/data'
 VOLUME_KEY  = 'volume-autodock'
 
@@ -42,7 +44,7 @@ def autodock():
     # define a generic container, which can be used for all tasks
     container = k8s.V1Container(
         name='autodock-container',
-        image='gabinsc/autodock-gpu:1.5.3',
+        image=IMAGE_NAME,
         working_dir=MOUNT_PATH,
 
         volume_mounts=[volume_mount],
