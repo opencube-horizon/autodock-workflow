@@ -5,7 +5,7 @@ A workflow for molecular docking using AutoDock-GPU. The workflow is implemented
 
 We provide a DAG to execute molecular docking of a set of ligands to a fixed receptor, using AutoDock-GPU, with GPU acceleration on NVIDIA GPU.
 
-![AutoDock-GPU DAG in Apache Airflow UI](screenshot_workflow.jpg "Screenshot of the DAG in Apache Airflow")*The AutoDock-GPU DAG, as presented in Apache Airflow UI*
+![AutoDock-GPU DAG in Apache Airflow UI](screenshot_workflow.jpg "Screenshot of the DAG in Apache Airflow")*The AutoDock-GPU DAG, as presented in the Apache Airflow UI*
 
 ## Quickstart
 
@@ -26,6 +26,10 @@ The main DAG is contained in `autodock.py`, we also provide with the following f
 - [ ] DAG: a `.sdf` ligand database is stored in the root of the PersitentVolume.
 
 ## Setup & Installation
+### Requirements
+- A Kubernetes cluster
+- A working Apache Airflow setup: in particular, Apache Airflow must be configured to be able to run tasks on the Kubernetes cluster.
+
 ### 1. Kubernetes _PersistentVolume_ and _PersistentVolumeClaim_
 The workflow relies on a specific PersitentVolumeClaim to be present on the Kubernetes cluster to store files during execution. In this step, we describe how to create a PersistentVolume, and a PersistentVolumeClaim attached to this volume.
 
@@ -54,7 +58,7 @@ docker build -t gabinsc/autodock-gpu:1.5.3
 docker push gabinsc/autodock-gpu:1.5.3
 ```
 
-Please refer to Docker documentation for more details on building image, and publishing it. Make sure that you publish your image to a public Docker registry, or at least on which is accessible from your Apache Airflow setup.
+Please refer to Docker documentation for more details on building an image, and publishing it. Make sure that the image is published to a public Docker registry, or at least to a registry which is accessible from the Apache Airflow setup.
 
 ### 3. Deploying and adapting the DAG
 In order for the DAG to be executed in your specific environment, some adjusments are required.
