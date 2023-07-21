@@ -52,8 +52,9 @@ In this example, and in the rest of this tutorial, the PersistentVolumeClaim is 
 ### 2. Building the Docker image
 A Dockerfile is provided, along with scripts that will be included in the image, in the the `docker` folder.
 
-To build and publish the image, when in the `docker` folder:
+To build and publish the image:
 ```
+cd docker/
 docker build -t gabinsc/autodock-gpu:1.5.3
 docker push gabinsc/autodock-gpu:1.5.3
 ```
