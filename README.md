@@ -75,21 +75,20 @@ Click on "Trigger DAG" in the Apache Airlfow UI to start the DAG with the defaul
 - `ligand_db`: the name of the ligand database, without the `.sdf` extension.
 - `ligands_chunk_size`: batch size
 
-## DAG execution plotting (_experimental_)
+## Results analysis (_experimental_)
 
 We provide python scripts to create readable Gantt charts, based on the workflow execution. Note that a Gantt chart can be found for each DAG execution in Apache Airflow UI, however, this chart offers limited interactivity and can be hard to read for complex or long-running DAGs.
+
+Requirements:
+- `python` (&ge; 3.9)
+- python libraries: `plotly`, `requests`
 
 Three scripts are available, each plotting a different Gantt chart:
 - _Resource_ view: each line in the chart represents a slot in a pool (note that multi-slot tasks are not supported)
 - _Task_ view: each line represents a tasks
 - _Multi-execution resource_ view: several DAG runs can be presented on the same Gantt chart, each run has its own color.
 
-Requirements:
-- `python` (&ge; 3.9)
-- `plotly` library
-- `requests` library
-
-You first need to set the constants `plot/constants.py`:
+Before running those scripts, you need to set the constants in `plot/constants.py`:
 - `BASE_URL`: base URL to access Airflow API
 - `SESSION_COOKIE`: session cookie, can typically be obtained from the Network section of your browser's DevTools when logged in on the Apache Airflow UI
 - `DAG_ID`: the name of the DAG, `autodock`
