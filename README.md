@@ -5,6 +5,10 @@ A workflow for molecular docking using AutoDock-GPU. The workflow is implemented
 
 We provide a DAG to execute molecular docking of a set of ligands to a fixed receptor, using AutoDock-GPU, with GPU acceleration on NVIDIA GPU.
 
+> [!NOTE]
+> This workflow is also compatible with the OpenCL version of AutoDock-GPU.
+> We provide a Docker image and the associated Dockerfile for OpenCL on Intel CPU. It is available on dockerhub, with tag `gabinsc/autodock-gpu:1.5.3-intelcpu-opencl`.
+
 ![AutoDock-GPU DAG in Apache Airflow UI](screenshot_workflow.jpg "Screenshot of the DAG in Apache Airflow")*The AutoDock-GPU DAG, as presented in the Apache Airflow UI*
 
 ## Quickstart
