@@ -9,7 +9,7 @@ from datetime import datetime
 
 from kubernetes.client import models as k8s
 
-IMAGE_NAME = 'gabinsc/autodock-gpu:1.5.3' # CHANGE ME
+IMAGE_NAME = 'gabinsc/autodock-gpu:1.5.3-CPU' # CHANGE ME
 PVC_NAME = 'pvc-autodock' # CHANGE ME
 
 MOUNT_PATH = '/data'
@@ -19,7 +19,7 @@ params = {
     # PDBID of the receptor, which will be used to fetch protein data from PDB
     'pdbid': '7cpa',
 
-    # label of the ligand database, the filename for 
+    # label of the ligand database, the filename for
     # the corresponding database must be '{db_label}.sdf'
     'ligand_db': 'sweetlead',
 
@@ -32,7 +32,7 @@ namespace = conf.get('kubernetes_executor', 'NAMESPACE')
      schedule=None,
      catchup=False,
      params=params)
-def autodock(): 
+def autodock():
     import os.path
 
     volume = k8s.V1Volume(
@@ -54,10 +54,6 @@ def autodock():
     # CPU/generic pod specification
     pod_spec      = k8s.V1PodSpec(containers=[container], volumes=[volume])
     full_pod_spec = k8s.V1Pod(spec=pod_spec)
-
-    # GPU-specific pod specification
-    pod_spec_gpu      = k8s.V1PodSpec(containers=[container], volumes=[volume], runtime_class_name='nvidia')
-    full_pod_spec_gpu = k8s.V1Pod(spec=pod_spec_gpu)
 
     # 1a - Prepare the protein
     prepare_receptor = KubernetesPodOperator(
@@ -90,7 +86,7 @@ def autodock():
 
     @task_group
     def docking(batch_label: str):
-        
+
         # prepare_ligands: <db_label> <batch_num> -> filelist_<db_label>_batch<batch_num>
         prepare_ligands = KubernetesPodOperator(
             task_id='prepare_ligands',
@@ -104,11 +100,7 @@ def autodock():
         # perform_docking: <filelist> -> ()
         perform_docking = KubernetesPodOperator(
             task_id='perform_docking',
-            full_pod_spec=full_pod_spec_gpu,
-            container_resources=k8s.V1ResourceRequirements(
-                limits={"nvidia.com/gpu": "1"}
-            ),
-            pool='gpu_pool',
+            full_pod_spec=full_pod_spec,
 
             cmds=['/autodock/scripts/2_docking.sh'],
             arguments=['{{ params.pdbid }}', batch_label],
@@ -122,7 +114,7 @@ def autodock():
 
     # for each batch_label, we create a prepare_ligand + perform_docking task
     d = docking.expand(batch_label=batch_labels)
-    
+
     # add post-processing
     d >> postprocessing
 

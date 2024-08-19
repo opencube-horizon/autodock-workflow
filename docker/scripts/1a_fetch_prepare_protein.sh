@@ -4,7 +4,7 @@ set -e
 [ $# != 1 ] && echo "usage: $0 pdbid" && exit 1
 
 MGLTOOLS=/autodock/mgltools
-AUTOGRID=/autodock/./autogrid4
+AUTOGRID=autogrid4
 SCRIPT=$(readlink -f "$0")
 SCRIPTDIR=$(dirname "$SCRIPT")
 
@@ -17,7 +17,12 @@ wget https://files.rcsb.org/download/${PDBID}.pdb -O $RECEPTOR_PDB
 # only keep the longest chain (-r)
 obabel $RECEPTOR_PDB -o pdb -r -h -O $RECEPTOR_PDB
 
-LD_LIBRARY_PATH=$MGLTOOLS/lib $MGLTOOLS/bin/python2.7 \
+# we defined those environments variable to make sure that we can execute
+# the script in any environment (with/without python in PATH)
+PATH="$PATH:$MGLTOOLS/bin" \
+LD_LIBRARY_PATH="$MGLTOOLS/lib" \
+PYTHONPATH="$MGLTOOLS/MGLToolsPckgs" \
+python2.7 \
 	$MGLTOOLS/MGLToolsPckgs/AutoDockTools/Utilities24/prepare_receptor4.py \
 	-r $RECEPTOR_PDB -o $PDBID.pdbqt
 
@@ -38,8 +43,8 @@ parameter_file AD4.1_bound.dat
 gridfld $PDBID.maps.fld
 spacing 0.375
 receptor_types $RECEPTOR_TYPES
-ligand_types   $LIGAND_TYPES       
-receptor $PDBID.pdbqt       
+ligand_types   $LIGAND_TYPES
+receptor $PDBID.pdbqt
 gridcenter 49.8363 17.6087 36.2723
 smooth 0.5
 EOF

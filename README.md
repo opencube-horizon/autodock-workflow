@@ -7,7 +7,10 @@ We provide a DAG to execute molecular docking of a set of ligands to a fixed rec
 
 > [!NOTE]
 > This workflow is also compatible with the OpenCL version of AutoDock-GPU.
-> We provide a Docker image and the associated Dockerfile for OpenCL on Intel CPU. It is available on dockerhub, with tag `gabinsc/autodock-gpu:1.5.3-intelcpu-opencl`.
+> We provide three Dockerfiles for various architectures:
+> - `Dockerfile`: CUDA version, published on Docker Hub under tag `gabinsc/autodock-gpu:1.5.3` 
+> - `Dockerfile.IntelCPUOpenCL`: OpenCL version, for Intel CPUs, available under `gabinsc/autodock-gpu:1.5.3-intelcpu-opencl` 
+> - `Dockerfile.CPU`: CPU-only version, based on PoCL, available under `gabinsc/autodock-gpu:1.5.3-CPU`
 
 ![AutoDock-GPU DAG in Apache Airflow UI](screenshot_workflow.jpg "Screenshot of the DAG in Apache Airflow")*The AutoDock-GPU DAG, as presented in the Apache Airflow UI*
 

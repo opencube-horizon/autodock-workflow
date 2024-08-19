@@ -1,0 +1,37 @@
+FROM ubuntu:24.04 AS builder
+WORKDIR /autodock/
+RUN apt-get update && apt-get install -y wget autogrid libpocl-dev ocl-icd-opencl-dev make g++ libssl-dev zlib1g-dev
+
+# download AutoDock-GPU source, and build it
+ADD https://github.com/ccsb-scripps/AutoDock-GPU/archive/refs/tags/v1.5.3.tar.gz ./
+RUN \
+    tar xzf v1.5.3.tar.gz \
+    && cd AutoDock-GPU-1.5.3/ \
+    && make DEVICE=CPU NUMWI=64
+
+# build Python 2.7 from source
+ADD https://www.python.org/ftp/python/2.7.18/Python-2.7.18.tgz ./
+RUN tar xzf Python-2.7.18.tgz \
+    && cd Python-2.7.18 \
+    && ./configure --prefix '/python/' \
+    && make install \
+    && /python/bin/./python2.7 -m ensurepip \
+    && /python/bin/./pip install numpy
+
+FROM ubuntu:24.04
+RUN apt-get update && apt-get install -y wget openbabel autogrid libpocl2 ocl-icd-libopencl1
+
+# download and install mgltools
+WORKDIR /autodock/mgltools/
+ADD https://ccsb.scripps.edu/mgltools/download/491/ ./mgltools.tar.gz
+RUN \
+    tar xzOf mgltools.tar.gz mgltools_x86_64Linux2_1.5.7/MGLToolsPckgs.tar.gz | tar xz \
+    && rm mgltools.tar.gz
+
+# install python
+COPY --from=builder /python/ /usr/local/
+
+WORKDIR /autodock/
+COPY --from=builder /autodock/AutoDock-GPU-1.5.3/bin/autodock_cpu_64wi ./autodock_gpu
+
+ADD scripts/ ./scripts/
